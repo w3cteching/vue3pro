@@ -10,7 +10,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
 
 export default {
   name: "Home",
-  data() {
+  data () {
     return {
       list: [
         { id: 1001, name: "alice" },
@@ -21,17 +21,17 @@ export default {
     };
   },
   components: {
+    // eslint-disable-next-line vue/no-unused-components
     HelloWorld
   },
   methods: {
-    go() {
+    go () {
       const index = 0;
       console.log(index);
     }
   }
 };
 </script>
-
 
 <style>
   .hd {

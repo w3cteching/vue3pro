@@ -3,11 +3,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-//引入reset.css
+// 引入reset.css
 import './common/reset.css'
 
-//引入flexible
-//import './utils/flexible'
+// 引入flexible
+// import './utils/flexible'
 import './utils/rem'
 
 Vue.config.productionTip = false
