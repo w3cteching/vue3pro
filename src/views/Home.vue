@@ -15,14 +15,17 @@
           <use xlink:href="#icon-pinglun"></use>
         </svg>
        </p>
+
+       <div>
+          <button @click="getData">获取数据</button>
+
+       </div>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import { courseComment } from '@/http/api'
 export default {
   name: "Home",
   data () {
@@ -36,14 +39,15 @@ export default {
       ]
     };
   },
-  components: {
-    // eslint-disable-next-line vue/no-unused-components
-    HelloWorld
-  },
+  components: {},
   methods: {
-    go () {
-      const index = 0;
-      console.log(index);
+    getData () {
+     // const info = { basis_id: 287 }
+       const info={id:287,limit:10,page:2};
+
+      courseComment(info).then(res => {
+        console.log('课程信息：', res)
+      })
     }
   }
 };

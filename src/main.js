@@ -2,6 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+// 引入http
+import http from './http/request'
 
 // 引入reset.css
 import './common/reset.css'
@@ -10,6 +12,8 @@ import './common/reset.css'
 // import './utils/flexible'
 import './utils/rem'
 
+// 挂载到Vue原型上
+Vue.prototype.$http = http
 Vue.config.productionTip = false
 
 new Vue({

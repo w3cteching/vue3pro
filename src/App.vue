@@ -8,7 +8,7 @@
           :to="item.url">
           <svg class="icon icon_nav" aria-hidden="true">
             <use :xlink:href="`#icon-${item.name}`"></use>
-         </svg>
+          </svg>
           <span>{{ item.title }}</span>
       </router-link>
     </div>
@@ -48,12 +48,12 @@ export default {
   &.active {
     color:#f00;
   }
-  span {
-    padding:.04rem;
-  }
-  .icon_nav {
-    font-size: 20px;
-  }
+    span {
+      padding:.04rem;
+    }
+    .icon_nav {
+      font-size: 20px;
+    }
   }
 }
 </style>

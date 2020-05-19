@@ -323,3 +323,166 @@ const router = new VueRouter({
 });
 ```
 
+
+
+## 数据请求
+
+axios封装:基本不用封装，只是对请求的接口地址，超时，报错处理
+
+```
+安装axios
+npm i axios -S
+
+axios官方github仓库地址：https://github.com/axios/axios
+```
+
+
+
+1. 简洁语法:
+
+```
+//get语法语法
+axios.get('/user', {
+    params: {
+      ID: 12345
+    }
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  })
+```
+
+```
+//post请求语法
+axios.post('/user', {
+    firstName: 'Fred',
+    lastName: 'Flintstone'
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+```
+
+```
+function getUserAccount() {
+  return axios.get('/user/12345');
+}
+
+function getUserPermissions() {
+  return axios.get('/user/12345/permissions');
+}
+
+//可以用axios同时请求多个接口，类似于Promise.all()
+axios.all([getUserAccount(), getUserPermissions()])
+  .then(axios.spread(function (acct, perms) {
+    // Both requests are now complete
+  }));
+```
+
+2. axios通过配置对象来请求数据
+
+```
+//post请求
+axios({
+  url:'接口地址',
+  baseURL：‘接口默认前缀地址’
+  method:'post',
+ // data:{  }, //传参,注意：post请求有可能会用qs库去转换
+  data:qs.stringify(obj)
+  headers:{'content-tpye':'application/x-www-form-urlencoded',......}, //请求头配置
+  
+});
+
+例如：
+
+import qs from 'qs';
+const data = { 'bar': 123 };
+const options = {
+  method: 'POST',
+  headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  data: qs.stringify(data),
+  url,
+};
+axios(options);
+
+//get请求
+axios({
+  url:'接口地址',
+  method:'get',
+  params:{  }, //传参
+  headers:{'content-tpye':'x-www-form-urlencoded',......}, //请求头配置
+  
+});
+```
+
+
+
+3. axios的默认配置
+
+```
+axios.defaults.baseURL = '默认接口域名url';
+axios.defaults.headers['x-token'] = token值;  //添加token
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+```
+
+
+
+4. 创建axios实例
+
+    ```
+    const instance = axios.create({
+      baseURL: '默认接口域名url',
+      timeout:2500
+    });
+    
+    //instance.defaults.timeout = 2500;  //给实例添加默认超时时间
+    ```
+
+5.axios拦截器
+
+```
+// 添加请求拦截
+axios.interceptors.request.use(function (config) {
+    //发送成功请求
+    config.headers['x-token']=getToken()
+    return config;
+  }, function (error) {
+    //发送错误请求的拦截
+    return Promise.reject(error);
+  });
+
+// 添加响应拦截
+axios.interceptors.response.use(function (res) {
+    //成功返回
+    if(res.code===2000) {
+      
+    }
+    
+    if(res.code===5000) {
+      Tosst({
+        title:'登录超时'
+      })
+      
+      router.push({
+      path:'/login'
+      })
+    }
+    return res;
+  }, function (error) {
+    //失败返回
+    return Promise.reject(error);
+  });
+```
+
+
+
+业务接口的封装
+
+环境地址
+
