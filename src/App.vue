@@ -1,33 +1,59 @@
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div> -->
-    <router-view/>
+    <router-view></router-view>
+    <div class="ft">
+      <router-link
+          v-for="(item) in navs"
+          :key="item.id"
+          :to="item.url">
+          <svg class="icon icon_nav" aria-hidden="true">
+            <use :xlink:href="`#icon-${item.name}`"></use>
+         </svg>
+          <span>{{ item.title }}</span>
+      </router-link>
+    </div>
   </div>
 </template>
 
-<style lang="scss">
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+<script>
+export default {
+  name: 'app',
+  data () {
+    return {
+      navs: [
+        { id: 1001, name: 'shouye', title: '首页', url: '/home' },
+        { id: 1002, name: 'gouwuche', title: '购物车', url: '/shopping' },
+        { id: 1003, name: 'fenlei', title: '订单', url: '/orderlist' },
+        { id: 1004, name: 'wode', title: '我的', url: '/my' }
+      ]
     }
+  }
+}
+</script>
+
+<style lang="scss">
+.ft {
+  position: absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height: .44rem;
+  display: flex;
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex:1;
+    flex-direction: column;
+  &.active {
+    color:#f00;
+  }
+  span {
+    padding:.04rem;
+  }
+  .icon_nav {
+    font-size: 20px;
+  }
   }
 }
 </style>

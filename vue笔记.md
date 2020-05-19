@@ -186,10 +186,6 @@ Eslint中文文档：https://cn.eslint.org/
 
 
 
-
-
-> svg
-
 > 数据接口:
 
 https://wap.365msmk.com/index
@@ -231,3 +227,99 @@ token= Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3Rlc3QuM
 | mobile   | 要填入的手机号 | 11手机号        |
 | sms_code | 要输入的验证码 | 手机的验证码    |
 | type     | 登录类型       | 2为验证登录登录 |
+
+
+
+> svg
+
+icon图标：
+
+​     img，雪碧图,base64(将图片转换成base64),
+
+​    字体图标,svg:可以灵活配置
+
+
+
+   svg:
+
+​     单个svg图:
+
+		1. 通过img引入svg
+  		2. 通过直接插入svg
+
+例如：
+
+```
+<svg t="1589851025817" class="icon search" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2154" width="200" height="200"><path d="M908.6 883.1l-155-155c28.1-30.9 50.5-66 66.8-104.4 19.3-45.6 29-94 29-143.9 0-49.9-9.8-98.3-29-143.9-18.6-44-45.3-83.5-79.2-117.5-33.9-33.9-73.5-60.6-117.5-79.2-45.6-19.3-94-29-143.9-29-49.9 0-98.3 9.8-143.9 29-44 18.6-83.5 45.3-117.5 79.2s-60.6 73.5-79.2 117.5c-19.3 45.6-29 94-29 143.9 0 49.9 9.8 98.3 29 143.9 18.6 44 45.3 83.5 79.2 117.5s73.5 60.6 117.5 79.2c45.6 19.3 94 29 143.9 29 49.9 0 98.3-9.8 143.9-29 38.5-16.3 73.6-38.7 104.4-66.8l155 155c3.5 3.5 8.1 5.3 12.7 5.3s9.2-1.8 12.7-5.3c7.1-7.1 7.1-18.5 0.1-25.5z m-428.8-69.7c-184 0-333.6-149.7-333.6-333.6 0-184 149.7-333.6 333.6-333.6 184 0 333.6 149.7 333.6 333.6 0 184-149.6 333.6-333.6 333.6z" p-id="2155"></path></svg>
+```
+
+通过样式来调整，例如:
+
+```
+ .search {
+      width:50px;
+      fill:#f00;
+}
+```
+
+
+
+   多个svg图合成：svg sprites
+
+
+
+  第一步：从iconfont挑选图标加入购物并下载
+
+  第二步：解压并打开xxx.html，找到symbol复制其中的svg代码
+
+  第三步：粘贴到vue项目public中的index.html中
+
+  第四步：使用svg
+
+
+
+```
+ <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-挑选的图标名"></use>
+ </svg>
+```
+
+
+
+## vue路由
+
+一、vue路由主要用于实现单页应用（SPA）
+
+二、vue路由模式：history,hash(默认)
+
+三、路由懒加载（让组件按需加载）
+
+
+
+例如：
+
+```
+const Home = () => import('组件路径');
+const Shopping = () => import('../views/shopping.vue');
+const OrderList = () => import('../views/orderlist.vue');
+const My = () => import('../views/my.vue');
+```
+
+四、路由的高亮显示
+
+​	默认类名：
+
+```
+.router-link-active { //高亮样式 }
+```
+
+  自定义高亮类名:
+
+```
+需要在实例化路由中添加：
+const router = new VueRouter({
+  routes,
+  linkActiveClass: 'active'  //添加自定义类名
+});
+```
+

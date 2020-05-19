@@ -47,6 +47,21 @@ table {
 	border-spacing: 0;
 }
 
+/* 自定义样式 */
+
 body {
     font-size: 16px;
+}
+
+.icon {
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+  }
+
+.ft a {
+	color:#333;
+	text-decoration: none;
 }
