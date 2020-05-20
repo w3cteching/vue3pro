@@ -27,7 +27,6 @@ export function courseInfo (info) {
   })
 }
 
-
 /**
  * 课程评论接口
  * @param { number  } limit 每页显示条数
@@ -39,8 +38,7 @@ export function courseComment (info) {
   return request({
     url: '/api/app/courseComment',
     method: 'post',
-    data: qs.stringify(info),  //formdata
-   //data: info  //payload
+    data: qs.stringify(info)
   })
 }
 

@@ -1,5 +1,3 @@
-
-
 # 一、vue版本情况
 
 vue最新版本：2.6
@@ -482,7 +480,209 @@ axios.interceptors.response.use(function (res) {
 
 
 
-业务接口的封装
+业务接口的封装：类似于咱们对微信小程序的接口封装思路
 
-环境地址
 
+
+环境地址切换：
+
+
+
+   一、环境切换简介：
+
+​      听过录音，你肯定听说过你的项目有多个接口，开发时，如何进行接口地址的切换或管理？
+
+
+
+   接口开发环境：
+
+​     1.本地环境:
+
+  ```
+npm run serve  
+自动走测试接口：https://test.365msmk.com/
+  ```
+
+
+
+​     2.测试环境
+
+```
+https://test.365msmk.com/
+```
+
+
+
+​      
+
+​     3.灰度环境：只给部分用户测试使用（内测），若有问题，提出bug，再调整，直到用过一时间功能稳定下来
+
+​    4.预发布环境：
+
+​     4.生产环境
+
+​    
+
+```
+当我npm run build时，自动走
+https://www.365msmk.com/
+```
+
+
+
+二、环境接口地址切换的解决方案：
+
+   1. vue官方脚手架解决方案：
+
+      ```
+      参考文档：https://cli.vuejs.org/zh/guide/mode-and-env.html
+      ```
+
+      
+
+> 在项目的根目录下,创建.env.模式名来配置，例如：
+
+```
+.env.development
+.env.production
+在文件中添加
+VUE_APP_自定义名称  //环境变量1
+NODE_ENV=环境名称   //环境变量2
+BASE_URL=URL
+
+注：一个模式可以包含多个环境变量
+```
+
+> 执行时通过在package.json的scripts属性中添加--mode 环境名来读取.env.模式文件中对应的环境变量
+
+2. 主要通过cross-env配合webpack来进行配置
+
+    > 结合node.js中的process模块读取环境变量
+
+    ```
+    process.env.环境变量名
+    ```
+
+    
+
+> 具体步骤：
+
+- 安装cross-env包实现跨平台环境变量配置
+
+```
+npm install cross-env -D
+```
+
+- 在package.json中添加cross-env运行环境脚本
+
+```
+  "scripts": {
+    "serve": "cross-env BUILD_ENV=dev vue-cli-service serve",
+    "build": "cross-env BUILD_ENV=prod vue-cli-service build",
+  }
+```
+
+> 注意：cross-env key=value 只是添加环境变量，不运行任何内容
+
+- 给process.env添加自定义的环境变量,通过vue.config.js来添加自定义环境变量,配置如下：
+
+```
+module.exports = {
+  lintOnSave: false, // 是否进行对代码用ESlint检验，false代表不检验
+  devServer: {
+    port: 9999
+  },
+  chainWebpack: config => {
+    // console.log('config:::', config.plugin('define'))
+    config
+      .plugin('define')
+      .tap(args => {
+        args[0]['process.env'].BUILD_ENV = JSON.stringify(process.env.BUILD_ENV)
+        return args;
+      })
+  }
+
+}
+
+```
+
+
+
+注意：BUILD_ENV=dev 名子要和build中的文件名一致，方便读取不同环境的文件
+
+- 在src下创建build目录添加不同环境变化匹配的文件
+
+```
+- build
+  - dev.js
+  - prod.js
+  
+ 例如：在prod.js中添加配置url，例如：
+ module.exports = {
+  BASE_URL: 'https://www.365msmk.com'
+}
+
+```
+
+- 在http请求的js中针对npm run 来自动读取不同环境变量
+
+    ```
+    const config_env = require(`../build/${process.env.BUILD_ENV}.js`);
+    
+    const service = Axios.create({
+      baseURL: config_env.BASE_URL,
+      timeout: 3000
+    })
+    
+    ```
+
+
+
+
+
+- 适配:
+
+    rem.js,
+
+    flexible.js
+
+    ```
+    .banner {
+      width:150px===>xxrem或xxxvw
+    }
+    
+    ```
+
+    
+
+解决适配大杀器：可以直接用px写布局，最终生成rem或vw,并且不用除以2(不用换算),从而解放生产力，提高开发 效率
+
+
+
+```
+ npm install @moohng/postcss-px2vw --save-dev
+```
+
+
+
+配置:在项目根目录下创建postcss:postcss.config.js文件，并添加：
+
+```
+module.exports = {
+  plugins: {
+    '@moohng/postcss-px2vw': {
+        rootValue: 200  //参考html字号
+    }
+  }
+}
+```
+
+
+
+vw:屏幕宽度 100vw:屏幕的百分之100
+
+vh:屏幕高度
+
+vmax:
+
+vmin:

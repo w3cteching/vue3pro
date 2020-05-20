@@ -59,7 +59,7 @@ export default {
     left:0;
     top:0;
     width:100%;
-    height:0.44rem ;
+    height:88px;
     background: #000;
     color:#fff;
     display: flex;
@@ -77,5 +77,12 @@ export default {
       width:50px;
       fill:#f00;
     }
+  }
+
+  button {
+    width:150px;
+    height:80px;
+    background:#00f;
+    border:none;
   }
 </style>

@@ -1,9 +1,15 @@
 // 基本不用封装，只是对请求的接口地址，超时，报错处理
 import Axios from 'axios'
 
+console.log('request.js中的环境变量:', process.env.BUILD_ENV)
+ 
+// 针对npm run 来自动读取不同环境变量
+const config_env = require(`../build/${process.env.BUILD_ENV}.js`);
+
+
 // 创建axios实例
 const service = Axios.create({
-  baseURL: 'https://www.365msmk.com',
+  baseURL: config_env.BASE_URL,
   timeout: 3000
 })
 
