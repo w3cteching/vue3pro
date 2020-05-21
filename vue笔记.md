@@ -803,8 +803,43 @@ vmin:
 
     
 
-    - getters
-    - module
+    - getters: getters相当于是vuex中的state的计算属性
+
+    ```
+    第一种方法：this.$store.getters.getters的计算属性名
+    第二种方法：通过mapGetters读取(也称做vuex辅助函数)
+     步骤：
+      1.import { mapGetters } from 'vuex'
+      2.通过computed中注入mateActions
+        computed: {
+        	...mapGetters(['count', 'token', 'index'])
+        }
+    ```
+
+    
+
+    - module:为了解决应用的所有状态会集中到一个比较大的对象的臃肿,管理复杂的问题
+
+    ```
+    读取module中的数据状态
+    
+    在compute中通过this.$store.state.module的模块属性.模块内部的属性名
+    例如：
+    export default new Vuex.Store({
+      ...
+      modules: {
+        user: user,
+        orderlist: orderlist
+      }
+    
+    })
+    
+    注：无论用module切割多少个store,最终都会将state,actions,modules合并到一个store树上面
+    ```
+
+    - 插件：plugins 为了扩展vuex的功能，例如：vuex的数据持久化插件
+
+    
 
 7. vuex的工程目录
 
@@ -821,9 +856,65 @@ vmin:
 
     
 
+8. mutations-type 常量化
+
+    ```
+    将mutations的公共常量单独存放到一个文件中，便于mutations方法名的管理
+    例如：
+    export const INCREMENT = 'INCREMENT'
+    export const DECREMENT = 'DECREMENT'
+    
+    然后再mutation.js中引入，如下：
+    import { INCREMENT, DECREMENT } from './mutation-types'
+    ```
+
+    
+
+9. js文件的自动导入【不是必须会，但会了会让生活更美好--】
+
+   webpack中有一个require.context可实现文件的自动导入
 
 
 
+```
+//读取./modules/目录下的所有js文件
+const moduleFiles = require.context('./modules/', true, /\.js$/);
+
+//console.log('moduleFiles:',moduleFiles.keys())
+
+//通过recude遍历获取所有store，组成{ 文件名:{actions,getters,mutations}: }
+const modules = moduleFiles.keys().reduce((module, modulePath) => {
+  
+  //获取store名
+  const moduleName = modulePath.replace(/\.\/(.+)\.\w+/, '$1')
+  //取出当前store所有内容
+  const value = moduleFiles(modulePath).default
+  
+  module[moduleName] = value;
+
+  return module;
+  
+}, {})
+
+```
+
+
+
+
+
+   数组reduce用法mdn参考文档:https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
+
+
+
+正则你还不明白吗，看文档：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RegExp
+
+
+
+如何取出文件名的主名部分：   ./orderlist.js 我想取出orderlist如何取出
+
+
+
+核心思路：通过正则表达取出
 
 
 

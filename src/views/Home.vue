@@ -21,13 +21,25 @@
         <button class="btn" @click="increment">加</button>
         <button class="btn" @click="decrement">减</button>
        </div>
+
+       <div class="list">
+          <button class="btn" @click="register">module状态</button>
+          <p>token:{{ token }}</p>
+          <p>count:{{ count }}</p>
+          <!-- <ul>
+            <li v-for="(item,index) in male" :key="item.id">
+               <p>姓名：<span>{{ item.username }}</span></p>
+               <p>地址：<span>{{ item.address }}</span></p>
+            </li>
+          </ul> -->
+       </div>
     </div>
   </div>
 </template>
 
 <script>
 import { courseComment } from '@/http/api'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions,mapGetters } from 'vuex'
 export default {
   name: "Home",
   data () {
@@ -43,13 +55,12 @@ export default {
   },
   components: {},
   methods: {
-    ...mapActions(['increment', 'decrement'])
-    // add () {
-    //   this.$store.dispatch('increment', '1906A')
-    // }
+    ...mapActions(['increment', 'decrement', 'login','register']),
+   
   },
   computed: {
     ...mapState(['count', 'token', 'index']),
+   // ...mapGetters(['male', 'female', 'count111'])
     // total() {
     //   let result=10;
     //   return  result+10;

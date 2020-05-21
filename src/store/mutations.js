@@ -1,9 +1,11 @@
+import { INCREMENT, DECREMENT } from './mutation-types'
+
 const mutations = {
-  INCREMENT (state, value) {
+  [INCREMENT] (state, value) {
     console.log('mutations中的INCREMENT', state);
     state.count++
   },
-  DECREMENT (state, value) {
+  [DECREMENT] (state, value) {
     state.count--
   }
 }
