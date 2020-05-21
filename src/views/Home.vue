@@ -17,8 +17,9 @@
        </p>
 
        <div>
-          <button @click="getData">获取数据</button>
-
+         <p>{{ count }}</p>
+        <button class="btn" @click="increment">加</button>
+        <button class="btn" @click="decrement">减</button>
        </div>
     </div>
   </div>
@@ -26,6 +27,7 @@
 
 <script>
 import { courseComment } from '@/http/api'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: "Home",
   data () {
@@ -41,14 +43,23 @@ export default {
   },
   components: {},
   methods: {
-    getData () {
-     // const info = { basis_id: 287 }
-       const info={id:287,limit:10,page:2};
-
-      courseComment(info).then(res => {
-        console.log('课程信息：', res)
-      })
-    }
+    ...mapActions(['increment', 'decrement'])
+    // add () {
+    //   this.$store.dispatch('increment', '1906A')
+    // }
+  },
+  computed: {
+    ...mapState(['count', 'token', 'index']),
+    // total() {
+    //   let result=10;
+    //   return  result+10;
+    // }
+    // num () {
+    //   return this.$store.state.count;
+    // },
+    // token () {
+    //   return this.$store.state.token;
+    // }
   }
 };
 </script>
@@ -79,10 +90,11 @@ export default {
     }
   }
 
-  button {
-    width:150px;
-    height:80px;
-    background:#00f;
-    border:none;
+  .btn {
+    width:200px;
+    height: 80px;
+    border:1px solid #ccc;
+    font-size: 40px;
   }
+
 </style>

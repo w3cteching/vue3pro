@@ -686,3 +686,148 @@ vh:屏幕高度
 vmax:
 
 vmin:
+
+
+
+
+
+##  vuex复习
+
+## 一、vue-devtools
+
+[vue-devtools](https://github.com/vuejs/vue-devtools)
+
+国内chrome插件下载地址：https://crxdl.com/  (不用翻墙)
+
+
+
+## 二、vuex
+
+1. vuex是什么：Vuex 是一个专为 Vue.js 应用程序开发的**状态管理模式**。它采用集中式存储管理应用的所有组件的状态（面试中：vuex是vue中集中管理数据工具）
+
+2. vue组件通讯：父子通讯（父子，子父），兄弟通讯，隔代组件通讯（A->B->C->D）
+
+3. vuex可以实现兄弟通讯，隔代通讯，父子通讯
+
+4. vuex通常存放哪些数据：组件之间经常共享的数据
+
+5. vuex通常用于什么样项目：根据项目复杂程度，组件比较多，数据传递比较复杂，数据难于管理时，就会想到vuex,例如：电商，后台管理的项目
+
+6. vuex的核心：
+
+    - state：数据仓库
+
+        - 组件中读取state数据 
+
+        ```
+        第一种方式：this.$store.state.count
+        第二种方式：通过mapSate读取(也称做vuex辅助函数)
+          步骤：
+          1.import { mapState } from 'vuex'
+          2.通过computed中注入mateSate
+            computed: {
+            	...mapState(['count', 'token', 'index'])
+            }
+        ```
+
+    - actions:通常用于异步方法操作，但不会在这步改变state值
+
+        - 组件中调用actions方法
+
+        ```
+        第一种方法：this.$store.dispath('actions的方法名',要传递的值)
+        第二种方法：通过mapActions读取(也称做vuex辅助函数)
+         步骤：
+          1.import { mapActions } from 'vuex'
+          2.通过methods中注入mateActions
+            methods: {
+            	...mapActions(['count', 'token', 'index'])
+            }
+        ```
+
+        
+
+    - mutations
+
+    ```
+     在actions中方法中通过commit('mutaions方法名',要传递的值);
+    ```
+
+    > 注意：通常在muations中定义的方法名,并且mutions中代码都是同步操作
+    >
+    > 组件改变vuex中数据状态的流程：
+
+    ```
+           dispath           commit             逻辑操作
+    vue组件---------->actions--------->mutations------->改变state---->最终同步到vue组件视图上
+    ```
+
+    > vuex中数据持久化的问题？？
+    >
+    > 实现原理：利用本地存储
+
+    ```
+    localStorage,sessionStorage,cookie
+    localStorage.setItem('cartData',JSON.stringify(obj))  //存储数据
+    let cartData=localStorage.getItem('cartData')  //读取本地存储数据
+    
+    cartData=JSON.parse(cartData);
+    
+    localStorage.removeItem('count') //清除某一属性指定的值
+    localStorage.clear() //清除全部
+    
+    ```
+
+    > 这里除了通过本地存储之外，也可以通过一个vuex数据持久化插件来解决
+    >
+    > 例如：vuex-persistedstate
+    >
+    > 使用方法：
+
+    ```
+    第一步：安装：
+    	npm install --save vuex-persistedstate
+    
+    第二步：在vuex中的index.js引入
+    import createPersistedState from "vuex-persistedstate";
+    
+    第三步：在vuex实例上通过plugins注入
+    export default new Vuex.Store({
+      ...
+      plugins: [createPersistedState()]
+    
+    })
+    ```
+
+    
+
+    
+
+    - getters
+    - module
+
+7. vuex的工程目录
+
+    ```
+    - src
+      └── store
+          ├── index.js          # 我们组装模块并导出 store 的地方
+          ├── actions.js        # 根级别的 action
+          ├── mutations.js      # 根级别的 mutation
+          └── modules
+              ├── cart.js       # 购物车模块
+              └── products.js   # 产品模块
+    ```
+
+    
+
+
+
+
+
+
+
+
+
+
+

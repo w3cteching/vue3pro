@@ -24,7 +24,6 @@ const routes = [
   { path: '/my', component: My }
 ]
 
-
 console.log('路由中的base', process.env.BASE_URL)
 // 实例化路由
 const router = new VueRouter({
