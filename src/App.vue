@@ -1,8 +1,7 @@
 <template>
   <div id="app">
-   
     <router-view></router-view>
-     
+
     <div class="ft">
       <router-link
           v-for="(item) in navs"
@@ -14,15 +13,27 @@
           <span>{{ item.title }}</span>
       </router-link>
     </div>
+    <!-- 侧滑 -->
+    <transition name="slide">
+       <SlidePage v-if="isShow"></SlidePage>
+    </transition>
   </div>
 </template>
 
 <script>
+// 引入slide
+import SlidePage from './components/slide'
 export default {
+  provide () {
+    return {
+      msg: 'hello,vuejs',
+      app: this
+    }
+  },
   name: 'app',
   data () {
     return {
-      title: '测试1111',
+      isShow: false,
       navs: [
         { id: 1001, name: 'shouye', title: '首页', url: '/home' },
         { id: 1002, name: 'gouwuche', title: '购物车', url: '/shopping' },
@@ -31,7 +42,21 @@ export default {
       ]
     }
   },
-  methods:{}
+  components: { SlidePage },
+  created () {
+    this.toggle()
+  },
+  methods: {
+    getData(v) {
+      console.log('获取ajax的方法:',v)
+    },
+    toggle () {
+      this.$bus.$on('up', v => {
+        console.log(v)
+        this.isShow = v;
+      })
+    }
+  }
 }
 </script>
 
@@ -60,4 +85,15 @@ export default {
     }
   }
 }
+
+//定义动画过程
+.slide-enter-active,.slide-leave-active {
+   transition:transform .3s ;
+}
+
+//定义起始和结束
+.slide-enter,.slide-leave-to {
+  transform:translate3d(-100%,0,0)
+}
+
 </style>

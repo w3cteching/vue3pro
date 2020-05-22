@@ -1,5 +1,6 @@
 <template>
     <div class="hd">
+      <toggle-com />
       <h2>{{ title }}</h2>
       <!-- <button @click="modi">修改</button> -->
       <span class="icon">
@@ -10,6 +11,7 @@
     </div>
 </template>
 <script>
+import toggleCom from './togglecom'
 export default {
   name: 'headercom',
   // props: ['title'],
@@ -24,6 +26,9 @@ export default {
     return {
      // t: this.title,
     }
+  },
+  components: {
+    toggleCom
   },
   methods: {
     modi () {
@@ -41,6 +46,7 @@ export default {
 <style lang="scss">
 .hd {
     position: absolute;
+    z-index: 100;
     left:0;
     top:0;
     width:100%;

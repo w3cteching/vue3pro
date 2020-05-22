@@ -1030,9 +1030,63 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
 
 - 兄弟通讯（非父子）
 
-    bus方式
+    bus方式,除了用于兄弟通讯外，也可以用于隔代,跨代通讯
+
+    如下图：
+
+    ![1590127705411](assets/1590127705411.jpg)
+
+    bus通讯：
+
+    - 创建一个空的vue并导出
+
+    ```
+    import Vue from 'vue'
+    const Bus = new Vue();
+    
+    export default Bus;
+    
+    ```
+
+    - 在main.js中注入bus
+
+    ```
+    //引入bus
+    import Bus from './utils/bus'
+    // 挂载到Vue原型上
+    Vue.prototype.$bus = Bus;
+    ```
+
+    - 实现派发和监听
+
+    ```
+     A组件派发
+     this.$bus.$emit('up', this.str)
+     
+     B组件监听：
+       created () {
+        this.getData();
+      },
+      methods: {
+        getData () {
+          // 监听派发的事件
+          this.$bus.$on('up', v => {
+            console.log(v)
+            v && (this.str = v);
+          })
+        }
+      }
+    ```
+
+      用bus实现跨代通讯：例如：实现侧滑栏
+
+    
+
+    <img src="./assets/slide.jpg" style="width:360px">
 
     vuex
+
+    vue
 
 - 隔代通讯
 
@@ -1040,7 +1094,26 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
 
     $listeners
 
-    provide和inject
+    provide和inject:一般平时用不少，除非你要开发vue组件库时才会用上
+
+    
+
+    ```
+     provide () {
+        return {
+          msg: 'hello,vuejs',
+          app: this
+        }
+      }
+      
+     或
+     provide:{
+       msg: 'hello,vuejs',
+       app: this
+     }
+    ```
+
+    
 
     
 

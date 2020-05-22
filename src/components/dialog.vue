@@ -4,6 +4,7 @@
             <div class="dialog-content">
                 <h3>{{ name }}</h3>
                 <p>价格:{{ price }}</p>
+                <p>{{ msg }}</p>
             </div>
 
             <div class="dialog-btns">
@@ -19,7 +20,8 @@
 <script>
 export default {
   name: 'maskDialog',
-  data() {
+  inject: ['msg', 'app'],
+  data () {
     return {
       name: 'ipad2',
       price: 20
@@ -31,6 +33,7 @@ export default {
      },
     // 确定
     confirm () {
+       this.app.getData(666);
      // 子级派发confirm事件
       this.$emit('confirm', { name: this.name, price: this.price })
     },
@@ -59,8 +62,7 @@ export default {
     transform: translate(-40%, -50%);
     margin: auto;
     z-index: 99999;
- }   
-
+ } 
  .dialog-box div, h3,p {
      padding:10px;
  }
