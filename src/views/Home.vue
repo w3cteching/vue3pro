@@ -1,49 +1,43 @@
 <template>
   <div class="home">
-    <div class="hd">
-      <h2>头部区域</h2>
-      <span class="icon">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-sousuo"></use>
-        </svg>
-      </span>
-    </div>
+    <header-com ref="headercom" :title.sync="title" />
     <div class="main">
        <p class="article">
-         请在此评论
+         请在此评论----{{ title }}
           <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-pinglun"></use>
         </svg>
        </p>
 
-       <div>
-         <p>{{ count }}</p>
-        <button class="btn" @click="increment">加</button>
-        <button class="btn" @click="decrement">减</button>
-       </div>
+       <button @click="toggle()">显示弹框</button>
+       <button @click="callChild">调用dialog子组件的方法</button>
 
-       <div class="list">
-          <button class="btn" @click="register">module状态</button>
-          <p>token:{{ token }}</p>
-          <p>count:{{ count }}</p>
-          <!-- <ul>
-            <li v-for="(item,index) in male" :key="item.id">
-               <p>姓名：<span>{{ item.username }}</span></p>
-               <p>地址：<span>{{ item.address }}</span></p>
-            </li>
-          </ul> -->
-       </div>
     </div>
+
+     <mask-dialog
+        ref="dialog"
+        v-if="isShow"
+        @confirm="geData"
+        @cancel="cancel"
+     />
+
+  
   </div>
 </template>
 
 <script>
+import HeaderCom from '../components/headercom'
+import maskDialog from '../components/dialog'
 import { courseComment } from '@/http/api'
-import { mapState, mapActions,mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
+
 export default {
   name: "Home",
   data () {
     return {
+      isShow: false,
+      title: '首页',
+      show: false,
       imgs: require('../assets/icons/search.svg'),
       list: [
         { id: 1001, name: "alice" },
@@ -53,14 +47,30 @@ export default {
       ]
     };
   },
-  components: {},
+  components: { HeaderCom, maskDialog },
   methods: {
-    ...mapActions(['increment', 'decrement', 'login','register']),
-   
+    callChild () {
+      // console.log('this.$children:',this.$children)
+     // this.$children[1].fn();
+     this.$refs.dialog.fn()
+    },
+    // 确定要执行的逻辑
+    geData (info) {
+      console.log('info:', info)
+      // 向后台传参操作 this.$http.get()
+      this.isShow = false;
+    },
+    // 取消要执行的逻辑
+    cancel () {
+      this.isShow = false;
+    },
+    toggle () {
+      this.isShow = !this.isShow;
+    }
   },
   computed: {
-    ...mapState(['count', 'token', 'index']),
-   // ...mapGetters(['male', 'female', 'count111'])
+    ...mapState(['count', 'token', 'index'])
+    // ...mapGetters(['male', 'female', 'count111'])
     // total() {
     //   let result=10;
     //   return  result+10;
@@ -76,18 +86,6 @@ export default {
 </script>
 
 <style lang="scss">
-  .hd {
-    position: absolute;
-    left:0;
-    top:0;
-    width:100%;
-    height:88px;
-    background: #000;
-    color:#fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 
   .main {
     position: absolute;

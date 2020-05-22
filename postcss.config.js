@@ -1,7 +1,9 @@
 module.exports = {
   plugins: {
-    '@moohng/postcss-px2vw': {
-        rootValue: 200  //参考html字号
+    autoprefixer: {},
+    'postcss-pxtorem': {
+      rootValue: 200,
+      propList: ['*']
     }
   }
-}
+};

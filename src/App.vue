@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+   
     <router-view></router-view>
+     
     <div class="ft">
       <router-link
           v-for="(item) in navs"
@@ -20,6 +22,7 @@ export default {
   name: 'app',
   data () {
     return {
+      title: '测试1111',
       navs: [
         { id: 1001, name: 'shouye', title: '首页', url: '/home' },
         { id: 1002, name: 'gouwuche', title: '购物车', url: '/shopping' },
@@ -27,7 +30,8 @@ export default {
         { id: 1004, name: 'wode', title: '我的', url: '/my' }
       ]
     }
-  }
+  },
+  methods:{}
 }
 </script>
 

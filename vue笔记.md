@@ -918,6 +918,142 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
 
 
 
+## vue组件通讯全面解读
+
+一、你对组件化的理解？组件树
+
+```
+参考：https://cn.vuejs.org/v2/guide/components.html
+```
+
+
+
+二、 vue组件通讯：组件之间数据是怎么传递的
+
+- 父子通讯：
+
+    父->子：props
+
+    ```
+    在子组件中通过props接收：
+    props:[]或{}
+    
+    通常接收时通过  { } 来接收父组件传过来的数据
+    例如：
+      props: {
+        title: {
+          type: String,  //检查接收的数据类型
+          default: '请输入标题', //设置如果没有传递数据时的默认值
+          required:true  //必填项，不传递会报错提醒
+        }
+      }
+      
+    官方建议：不要直接将props接收的值直接渲染到页面，可以通过将接收的值传递给data或computed处理后再展现到页面上
+    例如：
+    props: {
+        title: {
+          type: String,
+          default: '请输入标题',
+          required: true
+        }
+    },
+    data () {
+        return {
+          t: this.title    
+        }
+      },
+      computed: {
+         biaoti() {
+             return `处理过的标题${this.title}`
+         }
+      }
+      
+    注意：不能直接修改props接收过来的值
+    
+    能否通过改变接收的props值，来更新父组件对应的值？
+    
+    props单向数据流：
+    父---》子
+    子---》不能改变父组件的值
+    
+    通过添加sync属性配合$emit实现父子通讯的双向数据流：
+    
+    父组件：
+    <header-com :title.sync="title" />
+    
+     子组件：
+     this.$emit('update:title', '1906A')
+    
+    ```
+
+    
+
+    子->父：$emit 通过事件派发机制
+
+    
+
+    > this.$emit('要派发的自定义事件名',要传递的值)
+
+    > 例如：
+
+    ```
+      this.$emit('confirm', { name: this.name, price: this.price })
+    ```
+
+    
+
+    $parent:子组件直接父组件
+
+    $children：父组件直接调用子组件
+
+    ref：通过ref给dom元素或组件本身添加名称来实现
+
+    ```
+    例如：
+    <mask-dialog ref="dialog" />
+    
+    JS中通过this.$refs.名子访问
+    例如：this.$refs.dialog
+    ```
+
+    
+
+    > 思考一下：
+    >
+    >    如何在父组件中直接调用子组件的方法？ this.$children
+    >
+    >    home.vue父组件
+    >
+    >    Dialog.vue子组件
+    >
+    >   如何在子组件中直接调用父组件的方法？ this.$parent.方法()
+
+- 兄弟通讯（非父子）
+
+    bus方式
+
+    vuex
+
+- 隔代通讯
+
+    $attrs
+
+    $listeners
+
+    provide和inject
+
+    
+
+    > **说的再俗气一点：用本地存储也可以实现上面的所有通讯方式**
+
+    
+
+
+
+
+
+三、你怎么封装组件，
+
 
 
 

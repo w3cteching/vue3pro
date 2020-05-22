@@ -20,26 +20,15 @@ import user from './modules/user'
 import orderlist from './modules/orderlist'
 
 const moduleFiles = require.context('./modules/', true, /\.js$/);
-
-//console.log('moduleFiles:',moduleFiles.keys())
-
 const modules = moduleFiles.keys().reduce((module, modulePath) => {
-    //console.log('modulePath:', modulePath)
-   // const moduleName=modulePath.replace(/正则/,'要替换的值')
-  
-  //获取store名
+  // const moduleName=modulePath.replace(/正则/,'要替换的值')
+  // 获取store名
   const moduleName = modulePath.replace(/\.\/(.+)\.\w+/, '$1')
-  //取出当前store所有内容
+  // 取出当前store所有内容
   const value = moduleFiles(modulePath).default
-  
   module[moduleName] = value;
-
   return module;
-  
 }, {})
-
-
-console.log('modules:::::::::::::', modules)
 
 Vue.use(Vuex)
 
@@ -57,5 +46,4 @@ export default new Vuex.Store({
   actions,
   mutations,
   modules
-
 })
