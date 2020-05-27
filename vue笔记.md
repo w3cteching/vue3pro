@@ -1193,6 +1193,40 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
 
    ```
 即将多个组件中，逻辑相同的部分抽离出来，相当于组件之间相同逻辑的复用！
+
+步骤：
+   第一步：创建一个mixin文件（js文件）
+   const mixins = {
+   data() {
+    return {
+       w:'word'  
+     }  
+
+  },
+  methods: {
+    // 确定
+    confirm () {
+      //  this.app.getData(666);
+      // 子级派发confirm事件
+      this.$emit('confirm', { name: this.name, price: this.price })
+    },
+    // 取消
+    cancel () {
+      this.$emit('cancel')
+    }
+  }
+}
+
+export default mixins;
+
+   第二步：引入到组件中并且通过mixins注入
+   import mixins from '../utils/mixin
+   export default {
+      name: 'maskDialog',
+      mixins: [mixins],
+      props: {},
+      methods:{}
+   }
    ```
 
 
