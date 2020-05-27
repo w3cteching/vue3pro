@@ -1,6 +1,8 @@
 <template>
   <div class="home">
-    <header-com ref="headercom" :title.sync="title" />
+    <header-com ref="headercom" :title.sync="title">
+       <toggle-com />
+    </header-com>
     <div class="main">
        <p class="article">
          请在此评论----{{ title }}
@@ -14,22 +16,33 @@
 
     </div>
 
-     <mask-dialog
-        ref="dialog"
+     <mask-dialog 
+        ref="dialog" 
         v-if="isShow"
-        @confirm="geData"
+        @confirm="geData" 
         @cancel="cancel"
-     />
+        title="实训二开始"
+        content="新的教学内容"
+      >
+       <div slot="qrcode">
+          <h2>二维码</h2>
+          <div class="qr">
+            <img :src="imgs2" alt="">
+          </div>
+       </div>
+       <button slot="close" @click="close" class="btn-close">X</button>
+     </mask-dialog>
 
-  
   </div>
 </template>
 
 <script>
+import toggleCom from '@/components/togglecom'
 import HeaderCom from '../components/headercom'
 import maskDialog from '../components/dialog'
 import { courseComment } from '@/http/api'
 import { mapState, mapActions, mapGetters } from 'vuex'
+
 
 export default {
   name: "Home",
@@ -38,7 +51,8 @@ export default {
       isShow: false,
       title: '首页',
       show: false,
-      imgs: require('../assets/icons/search.svg'),
+      imgs1: require('../assets/icons/search.svg'),
+      imgs2: require('@/assets/icons/qrcode.jpg'),
       list: [
         { id: 1001, name: "alice" },
         { id: 1002, name: "jack" },
@@ -47,12 +61,16 @@ export default {
       ]
     };
   },
-  components: { HeaderCom, maskDialog },
+  components: { HeaderCom, maskDialog, toggleCom },
   methods: {
+    close () {
+      console.log('close')
+      this.isShow=false;
+    },
     callChild () {
       // console.log('this.$children:',this.$children)
-     // this.$children[1].fn();
-     this.$refs.dialog.fn()
+      // this.$children[1].fn();
+      this.$refs.dialog.fn()
     },
     // 确定要执行的逻辑
     geData (info) {
@@ -86,7 +104,16 @@ export default {
 </script>
 
 <style lang="scss">
-
+ .qr img {
+   width:10vw;
+ }
+ .btn-close {
+   position: absolute;
+   right:0px;
+   top: 0px;
+   border:none;
+   background:none;
+ }
   .main {
     position: absolute;
     top:.44rem;

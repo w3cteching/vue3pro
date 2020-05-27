@@ -18,10 +18,30 @@ const My = () => import('../views/my.vue');
 // 配置路由
 const routes = [
   { path: '/', redirect: '/home' },
-  { path: '/home', component: Home },
-  { path: '/shopping', component: Shopping },
-  { path: '/orderList', component: OrderList },
-  { path: '/my', component: My }
+  {
+    path: '/home',
+    component: Home,
+    meta: {title:'首页'}
+  },
+  {
+    path: '/shopping',
+    component: Shopping,
+    meta: { isLogin: false,title:'购物车' } // 配置购物车是需要登录的
+  },
+  {
+    path: '/orderList',
+    component: OrderList,
+    meta: {
+      title:'订单'
+    }
+  },
+  {
+    path: '/my',
+    component: My,
+    meta:{title:'我的'}
+  
+
+  }
 ]
 
 console.log('路由中的base', process.env.BASE_URL)

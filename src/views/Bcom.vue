@@ -1,6 +1,8 @@
 <template>
     <div class="bcom">
-        B组件--{{ str }}
+        B组件---{{ $attrs.name }}
+        
+        <button @click="go">B组件派发</button>
     </div>
 </template>
 
@@ -22,13 +24,13 @@ export default {
         console.log(v)
         v && (this.str = v);
       })
+    },
+    go () {
+      this.$emit('go', '1906A');
     }
   }
 }
 </script>
 <style lang="scss">
-.bcom {
-    position: absolute;
-    top:90px;
-}
+
 </style>

@@ -14,8 +14,8 @@ const service = Axios.create({
 
 // 请求拦截
 service.interceptors.request.use(config => {
-  config.headers['x-token'] = 'asfasdf35235aefaefkaslj23523523523523'
-  console.log('请求被拦截:', config)
+  // config.headers['x-token'] = 'asfasdf35235aefaefkaslj23523523523523'
+  // console.log('请求被拦截:', config)
   return config;
 }, _error => {
   // eslint-disable-next-line prefer-promise-reject-errors

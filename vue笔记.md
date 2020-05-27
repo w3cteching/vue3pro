@@ -1090,14 +1090,16 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
 
 - 隔代通讯
 
-    $attrs
+    bus
 
-    $listeners
+    vuex
+
+    
 
     provide和inject:一般平时用不少，除非你要开发vue组件库时才会用上
 
     
-
+    
     ```
      provide () {
         return {
@@ -1110,24 +1112,127 @@ const modules = moduleFiles.keys().reduce((module, modulePath) => {
      provide:{
        msg: 'hello,vuejs',
        app: this
-     }
+ }
     ```
 
     
 
-    
+    $attrs
 
+      主要用于接收没有通过props传递的属性，可以通过$attrs将父组件（shopping.vue）的值传递给中间组件（A组件）的子组件（B组件）
+    
+    
+    
+    ```
+    例如： <Bcom v-bind="$attrs"></Bcom>
+    B组件内部接收：通过{{ $attr.属性名接收}}
+    例如：{{ $attrs.name }}
+    ```
+    
+    
+    
+    
+    
+      购物车组件>A组件->B组件
+    
+    
+    
+    $listeners：主要用于由子组件向父组件传递事件
+    
+    ```
+    例如：由B组件派发事件到购物车组件，购物车如果要监听的事件，必须给A组件内部的B组件通过v-on添加$listeners，
+    
+     <Bcom v-bind="$attrs" v-on="$listeners"></Bcom>
+    ```
+    
+    
+    
+    
+    
     > **说的再俗气一点：用本地存储也可以实现上面的所有通讯方式**
-
+    
     
 
+    ```
+组件通讯详解参考资料：https://www.cnblogs.com/majj/p/12617802.html
+    ```
+
+
+
+三、你怎么封装组件【重点】
+
+  ```
+封装组件三要素：
+1.props：父传子   
+2.事件(派发和监听)  
+   this.$emit()派发事件
+   通过@或$on来监听事件
+   
+3.slot（插槽），内容分发
+   
+   命名插槽
+     <slot name="命名插槽名"></slot>
+     
+    例如：<slot name="qrcode"></slot>
+    
+   使用：
+      <div slot="qrcode">
+          .....
+      </div>
+    
+
+  封装组件思考：
+     1.你想向用户暴露哪些属性 (props)
+     2.你想向用户暴露哪些事件，让用户监听来处理后续的业务 ($emit,@)
+     3.你想让用户嵌入哪些自定义的内容（slot）
+  ```
+
+
+
+ 四、组件的mixins（也称混入）
+
+   ```
+即将多个组件中，逻辑相同的部分抽离出来，相当于组件之间相同逻辑的复用！
+   ```
+
+
+
+五、组件分类：
+
+​	
+
+```
+1.业务组件 只能在当前项目中使用的组件例如：购物车，商品列表，登录  职位：前端程序员，码农，coder
+2.公共组件：在项目中可以通用的项目  例如：星星评分，弹框， 职位：前端负责人，组长
+3.基础组件：任何项目都能使用的组件 例如：封装一个icon图标组件,button按钮  职位：架构师，
+```
 
 
 
 
-三、你怎么封装组件，
+
+   
+
+   作业：提升造轮子能力
+
+​    1. 封装一个星星评分组件
+
+​    2. 封装一个返回顶部的组件
+
+​    3. 封装一个搜索组件
+
+​    4.封装一个select下拉组件
+
+​    5.封装一个弹框组件
+
+​    6.封装一个switch组件
+
+   7.封装Toast组件
+
+.......
 
 
 
+  
 
-
+  

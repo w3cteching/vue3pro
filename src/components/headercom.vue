@@ -1,6 +1,6 @@
 <template>
     <div class="hd">
-      <toggle-com />
+      <slot />
       <h2>{{ title }}</h2>
       <!-- <button @click="modi">修改</button> -->
       <span class="icon">
@@ -11,7 +11,7 @@
     </div>
 </template>
 <script>
-import toggleCom from './togglecom'
+
 export default {
   name: 'headercom',
   // props: ['title'],
@@ -28,7 +28,7 @@ export default {
     }
   },
   components: {
-    toggleCom
+   
   },
   methods: {
     modi () {

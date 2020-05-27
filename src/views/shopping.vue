@@ -1,9 +1,12 @@
 <template>
     <div class="shopping">
       <header-com title="购物车" />
-        购物车页面--{{ count }}
-        <Acom></Acom>
-        <Bcom></Bcom>
+      <Acom 
+          :title="title" 
+          :name="name" 
+          :price="price"
+          @go="getEvent"
+      ></Acom>
     </div>
 </template>
 
@@ -15,8 +18,21 @@ import HeaderCom from '../components/headercom'
 import { mapState } from 'vuex'
 export default {
   name: 'shopping',
+  data() {
+   return {
+      title:'购物车标题',
+      name:'ipad2',
+      price:2000
+   }
+
+  },
   computed: {
     ...mapState(['count'])
+  },
+  methods:{
+    getEvent (v) {
+      console.log('v:',v)
+    }
   },
   components: { HeaderCom, Acom, Bcom }
 }
