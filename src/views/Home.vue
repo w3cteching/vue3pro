@@ -15,8 +15,12 @@
        <button @click="callChild">调用dialog子组件的方法</button>
 
        <div ref="box">{{ msg }} </div>
-       <button @click="getMsg">获取消息</button>
-       <ul class="goods-list">
+       <button ref='btn' @click="getMsg">获取消息</button>
+       <h2>输入框</h2>
+        <search-com v-model='v'></search-com>
+
+        <p>您输入的内容:{{ v }}</p>
+       <!-- <ul class="goods-list">
          <li v-for="(item,index) in list">
 
             <p>商品名称：{{ item.name }}</p>
@@ -24,11 +28,10 @@
             <p>商品状态：{{ item.isPay | pay }}</p>
 
          </li>
-       </ul>
-
+       </ul> -->
     </div>
 
-     <mask-dialog 
+     <mask-dialog
         @click.native="方法"
         ref="dialog" 
         v-if="isShow"
@@ -55,12 +58,13 @@ import HeaderCom from '../components/headercom'
 import maskDialog from '../components/dialog'
 import { courseComment } from '@/http/api'
 import { mapState, mapActions, mapGetters } from 'vuex'
-
+import searchCom from '../components/input_com'
 
 export default {
   name: "Home",
   data () {
     return {
+      v:'张三',
       msg: '可以在数据变化之后立即使用',
       isShow: false,
       title: '首页',
@@ -75,17 +79,22 @@ export default {
       ]
     };
   },
-  components: { HeaderCom, maskDialog, toggleCom },
+  mounted () {
+   // this.setFocus();
+  },
+  components: { HeaderCom, maskDialog, toggleCom,searchCom },
   methods: {
+    changeValue(e) {
+       console.log('input:',e.target.value)
+       this.v= e.target.value
+    },
+    // setFocus () {
+    //   this.$refs.username.focus();
+    // },
     getMsg () {
-    // console.log('前：', this.msg)
-    console.log('前：', this.$refs.box.innerHTML)
-
-      this.msg = '1606A'
-      
-      this.$nextTick(()=>{
-        console.log('后：', this.$refs.box.innerHTML)
-      })
+      this.$refs.btn.style.background="#00f"
+      this.$refs.btn.style.width="300px"
+      this.$refs.btn.style.height="100px"
 
     },
     close () {
@@ -129,6 +138,7 @@ export default {
 </script>
 
 <style lang="scss">
+
 .goods-list li {
   border-bottom:1px solid #ccc;
   padding:10px 20px;
@@ -149,10 +159,6 @@ export default {
     left:0;
     right:0;
 
-    .search {
-      width:50px;
-      fill:#f00;
-    }
   }
 
   .btn {

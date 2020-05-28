@@ -1249,13 +1249,26 @@ export default mixins;
 
    作业：提升造轮子能力
 
-​    1. 封装一个星星评分组件
+   1. 封装一个星星评分组件
+
+       参考资源：
+
+      ```
+      https://www.cnblogs.com/conglvse/p/9562521.html
+      https://www.cnblogs.com/chun321/p/9456663.html
+      ```
+
+      
 
 ​    2. 封装一个返回顶部的组件
 
 ​    3. 封装一个搜索组件
 
 ​    4.封装一个select下拉组件
+
+     ```
+https://www.cnblogs.com/pengfei-nie/p/9134367.html
+     ```
 
 ​    5.封装一个弹框组件
 
@@ -1408,3 +1421,116 @@ Vue.filter(key,filters[key])
 ```
 
 ​    
+
+> 自定义指令
+
+  Vue指令分类：
+
+   1. 内置指令：
+
+      ```
+      
+      v-model
+      v-for
+      v-if
+      v-on 简写：@
+      v-bind 简写：:
+      v-show
+      v-cloak：解决网速加载慢，出现{{}} 号的问题
+      
+      [v-cloak] {
+        display: none;
+      }
+      <div v-cloak>
+        {{ message }}
+      </div>
+      ```
+
+      
+
+   2. 自定义指令：
+
+```
+主要用于对DOM操作的封装，方便在组件中复用
+
+Vue中有DOM操作相关的：
+
+	ref:主要用于当前页面对DOM的操作
+	
+	自定义指令：封装成自定义指令，可以多个页面或组件中使用，复用性强
+```
+
+> 原生DOM有哪些方法
+
+```
+获取id:document.getElementById('')
+获取类名：getElementsByClassName()
+获取标签名：getElementsByTagName()
+创建dom: createElment('span')
+删除DOM:removeChild()
+
+打开输入框获取到焦点？
+focus()
+
+实现拖拽：<div v-drag></div>
+
+实现拖拽的原理：
+   三大事件:mousedown（鼠标按下）,mousemove（鼠标移动）,mouseup（鼠标抬起）
+   通过获取鼠标位置来动态改变dom样式
+   
+   
+```
+
+ 
+
+> Vue自定义可复用的方案：
+
+1. 自定义组件（.vue）
+2. 自定义过滤器：转换和处理数据格式
+3. 自定义指令：用于封装DOM的，方便复用
+4. mixins:用于抽离组件间相同逻辑
+
+5. 插件功能： 例如：vue-router,vuex,vue数据持久化插件
+
+    ```
+    可以发布到npm上
+    npm install 安装插件
+    本地使用
+    
+      例如：
+      npm install vuex
+      import Vuex from 'vuex'
+      Vue.use(Vuex)
+    ```
+
+    
+
+  任务：用自定义指令实现一个手机端拖拽
+
+
+
+> 组件上使用v-model
+
+> 面试时可能会问：
+>
+> 组件上如何使用v-model
+>
+> 或不用v-model如何实现数据的双向绑定
+
+
+
+> v-model本质上就是一个语法糖，其实就是由value属性和input事件来实现
+
+```
+为了让它正常工作，这个组件内的 <input> 必须：
+
+将其 value attribute 绑定到一个名叫 value 的 prop 上
+在其 input 事件被触发时，将新的值通过自定义的 input 事件抛出
+```
+
+
+
+
+
+
+

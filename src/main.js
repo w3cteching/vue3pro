@@ -17,15 +17,19 @@ import './common/reset.css'
 
 import './utils/rem'
 
-//引入过滤器函数
+// 引入过滤器函数
 import * as filters from './filters'
 
-//console.log('filters:',filters.currency)
+// 引入自定义指令
+import './directives'
 
-//Vue.filter('过滤器',对应的过滤器函数)
+// console.log('filters:',filters.currency)
+
+// Vue.filter('过滤器',对应的过滤器函数)
 Object.keys(filters).forEach(key => {
-  Vue.filter(key,filters[key])
+  Vue.filter(key, filters[key])
 })
+
 
 router.beforeEach((to, from, next) => {
   console.log('to:::::', to)
@@ -46,7 +50,6 @@ router.beforeEach((to, from, next) => {
 Vue.prototype.$bus = Bus;
 Vue.prototype.$http = http
 Vue.config.productionTip = false
-
 
 new Vue({
   router,
