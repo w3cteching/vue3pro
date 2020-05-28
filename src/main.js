@@ -17,12 +17,22 @@ import './common/reset.css'
 
 import './utils/rem'
 
+//引入过滤器函数
+import * as filters from './filters'
+
+//console.log('filters:',filters.currency)
+
+//Vue.filter('过滤器',对应的过滤器函数)
+Object.keys(filters).forEach(key => {
+  Vue.filter(key,filters[key])
+})
+
 router.beforeEach((to, from, next) => {
   console.log('to:::::', to)
   if (to.meta.title) {
     document.title = to.meta.title;
-   }
-  let token = localStorage.getItem('token');
+  }
+  const token = localStorage.getItem('token');
   if (to.meta.isLogin && !token) {
     next({
       path: '/login'
@@ -37,8 +47,27 @@ Vue.prototype.$bus = Bus;
 Vue.prototype.$http = http
 Vue.config.productionTip = false
 
+
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
+
+// new Vue({
+//   el: '#app',
+//   router,
+//   store,
+//   //template:'<div>1906A</div>',
+//   render: h => {
+//     return h('h2','1906A')  //纯JS写法
+//   }
+// })
+
+// new Vue({
+//   el: '#app',
+//   router,
+//   store, // store
+//   components: { App },
+//   template: '<App/>'
+// })

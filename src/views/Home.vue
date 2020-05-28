@@ -14,9 +14,22 @@
        <button @click="toggle()">显示弹框</button>
        <button @click="callChild">调用dialog子组件的方法</button>
 
+       <div ref="box">{{ msg }} </div>
+       <button @click="getMsg">获取消息</button>
+       <ul class="goods-list">
+         <li v-for="(item,index) in list">
+
+            <p>商品名称：{{ item.name }}</p>
+            <p>商品价格：{{ item.price | currency('$') }}</p>
+            <p>商品状态：{{ item.isPay | pay }}</p>
+
+         </li>
+       </ul>
+
     </div>
 
      <mask-dialog 
+        @click.native="方法"
         ref="dialog" 
         v-if="isShow"
         @confirm="geData" 
@@ -48,21 +61,33 @@ export default {
   name: "Home",
   data () {
     return {
+      msg: '可以在数据变化之后立即使用',
       isShow: false,
       title: '首页',
       show: false,
       imgs1: require('../assets/icons/search.svg'),
       imgs2: require('@/assets/icons/qrcode.jpg'),
       list: [
-        { id: 1001, name: "alice" },
-        { id: 1002, name: "jack" },
-        { id: 1003, name: "test" },
-        { id: 1004, name: "meimei" }
+        { id: 1001, name: "ipad2",price:234200,isPay:0 },
+        { id: 1002, name: "华为",price:100660,isPay:1 },
+        { id: 1003, name: "oppor",price:123290,isPay:0 },
+        { id: 1004, name: "nokia",price:3023320,isPay:1 }
       ]
     };
   },
   components: { HeaderCom, maskDialog, toggleCom },
   methods: {
+    getMsg () {
+    // console.log('前：', this.msg)
+    console.log('前：', this.$refs.box.innerHTML)
+
+      this.msg = '1606A'
+      
+      this.$nextTick(()=>{
+        console.log('后：', this.$refs.box.innerHTML)
+      })
+
+    },
     close () {
       console.log('close')
       this.isShow=false;
@@ -104,6 +129,10 @@ export default {
 </script>
 
 <style lang="scss">
+.goods-list li {
+  border-bottom:1px solid #ccc;
+  padding:10px 20px;
+}
  .qr img {
    width:10vw;
  }

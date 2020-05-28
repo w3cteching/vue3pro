@@ -1267,6 +1267,144 @@ export default mixins;
 
 
 
-  
+-----------------------------------------------------
 
-  
+## 一 、修饰符：.native
+
+
+
+  ```
+<button @click.native="方法名"></button>
+
+一个组件的根元素上直接监听一个JS原生事件
+
+  ```
+
+## 二、nextTick:
+
+```
+
+
+Vue.js 开发使用“数据驱动”的方式思考，避免直接接触 DOM
+为了在数据变化之后等待完成DOM更新后，再操作DOM，这时就要用到this.$nextTick
+
+注意：数据更新和DOM更新不是同步的，是异步的
+
+例如：改变dom样式，针对第三方插件（就是针对dom，swiper,滚动插件）的集成
+
+回答：nextTick主要用于获取dom更新后的操作,只是数据操作，不涉及DOM操作，不用使用nextTick
+```
+
+
+
+## 三、渲染函数 & JSX
+
+```
+通过JS渲染函数写法转换成了template和JSX的写法
+
+渲染函数：就是通过JS来实现模板渲染，最终也是编译成虚拟DOM，但要求JS功底比较好
+render:h=>{ 写JS实现模板渲染 }
+
+JSX:类似于vue的template,最终也是编译成虚拟DOM
+
+<div class='active'></div> 编译成虚拟DOM: { tag:'div' attrs:{clas:'active'} }
+
+<label for='username'></label>
+
+绑定事件：on事件名 例如：onClick 驼峰写法
+类名：className='active'
+<label htmlFor='username'></label>
+
+
+ template 或 render写法（用户体验好的推荐用JSX）
+```
+
+
+
+## 四、 Vue过滤器和自定义指令
+
+>  Vue过滤器：
+>  怎么理解：将后台返回的数据换一种形式输出，不改变原来的数据
+>  应用场景:后台返回的状态码（性别，支付状态），商品价格
+
+> 面试时：最后你再说如何使用，例如：有全局的，局部过虑器   
+
+1. 全局过滤器
+
+```
+Vue.filter('过滤器',对应的过滤器函数)
+```
+
+> 例如：
+
+```
+Vue.filer('currency' (v, type) {
+console.log('返回值：', v)
+const result = v && v.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+return type + result;
+})
+
+/**
+* 支付状态处理
+*/
+Vue.filter('pay' (v) {
+let payText = '';
+switch (v) {
+case 0: payText = '已支付'; break;
+case 1: payText = '未支付'; break;
+default: payText = '未知状态'; break;
+}
+return payText
+})
+```
+
+> 最后可以通过单独创建过滤器文件并导出过滤器函数，最后通过Object.keys来集中处理
+>
+> 例如：
+
+```
+过滤器文件：filters.js
+
+/**
+* 货币格式
+*/
+export function currency (v, type) {
+console.log('返回值：', v)
+const result = v && v.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')
+return type + result;
+}
+
+/**
+* 支付状态处理
+*/
+export function pay (v) {
+let payText = '';
+switch (v) {
+case 0: payText = '已支付'; break;
+case 1: payText = '未支付'; break;
+default: payText = '未知状态'; break;
+}
+
+return payText
+}
+
+然后再main.js中导入并转换成过滤器函数
+//引入过滤器函数
+import * as filters from './filters'
+
+//转换成过滤器函数
+Object.keys(filters).forEach(key => {
+Vue.filter(key,filters[key])
+})
+
+```
+
+
+
+2. 局部过滤器
+
+```
+通过在Vue实例上挂载filers添加过滤器，只能在当前组件内部使用
+```
+
+​    
