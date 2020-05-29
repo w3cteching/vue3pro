@@ -22,7 +22,7 @@ export default {
   name: 'tree-com', // 通过组件自身的name来实现组件的递归调用
   data () {
     return {
-      isShow: true
+      isShow: false
     }
   },
   props: {

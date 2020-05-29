@@ -1,6 +1,6 @@
 module.exports = {
   lintOnSave: false, // 是否进行对代码用ESlint检验，false代表不检验
- // runtimeCompiler: true, // 是否包含vue编译器
+  runtimeCompiler: true, // 是否包含vue编译器
   devServer: {
     port: 9999
   },

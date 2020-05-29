@@ -1,6 +1,7 @@
 <template>
     <div>
         <h2>订单页面页面</h2>
+        <button @click="goBack">返回</button>
         <!-- <input type="text" placeholder="输入" v-focus> -->
         <div class="box" v-drag></div>
     </div>
@@ -8,7 +9,12 @@
 
 <script>
 export default {
-  name: 'orderlist'
+  name: 'orderlist',
+  methods:{
+    goBack() {
+      this.$router.go(-1)
+    }
+  }
 }
 </script>
 

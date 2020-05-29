@@ -1748,7 +1748,209 @@ export default {
 
 
 
+  ## vue路由（实现单页应用的技术或称SPA）
 
 
 
+   一、 从面试角度，可能会问以下几个问题：
 
+   - 前端路由实现原理：
+
+     ```
+     浏览器哈希值:在浏览器url地址后面添加#/名子，如果改变哈希值，通过onhashchange可以监听到到变化
+     
+     参考资料：https://blog.csdn.net/sunxinty/article/details/52586556
+     
+     通过浏览器H5暴露的History API
+     参考mdn的history官方文档：https://developer.mozilla.org/zh-CN/docs/Web/API/History
+     
+     参考博客：https://www.zhangxinxu.com/wordpress/2013/06/html5-history-api-pushstate-replacestate-ajax/
+     ```
+
+     
+
+   - Vue路由模式有哪几个:
+
+      通过mode来设置Vue路由模式：
+
+     ​    hash:,带#  【默认】
+
+     ```
+     优点：兼容性好，不需要后端配置
+     缺点：路径不美观  例如：http://127.0.0.1:9999/#/shopping
+     ```
+
+     
+
+     ​    history:通过/来分隔路径 
+
+         ```
+     优点：路径美观  http://127.0.0.1:9999/shopping
+     缺点：有兼容性和需要后端配置，如果后端不配置路径重定义，点击页面会报打不开的错误
+         ```
+
+     
+
+   - Vue路由懒加载
+
+```
+例如：const Home = () => import('../views/home.vue');
+```
+
+
+
+   - Vue路由如何传参，动态路由
+
+     ```
+     query传参:
+      1.视图传递：
+     
+           <router-link to="/路径?名称=会传递的值">内容</router-link>
+           或
+           <router-link :to="{path:'/user',query:{ name:'1906A' }}">内容</router-link>
+           
+     
+       注意：不用配置路由配：
+       
+     
+       3.视图接收:
+       <div>User {{ $route.query.name }}</div>'
+     
+       在JS中接收：
+       this.$route.pquery.name
+       
+     
+     params传参
+     
+       1.视图传递：
+     
+           <router-link to="/路径/会传递的值">内容</router-link>
+           例如：
+           <router-link to="/user/1906A">/user/bar</router-link>
+     
+       2.路由配置：
+       const router = new VueRouter({
+         routes: [
+           { path: '/user/:name', component: User }
+         ]
+       })
+     
+       3.视图接收:
+       <div>User {{ $route.params.id }}</div>'
+     
+       在JS中接收：
+       this.$route.params.id
+       
+       
+       参考官方文档:https://router.vuejs.org/zh/guide/essentials/navigation.html
+     ```
+
+   - 路由守卫（或称为路由钩子函数）
+
+```
+参考官方：https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%85%A8%E5%B1%80%E5%89%8D%E7%BD%AE%E5%AE%88%E5%8D%AB
+```
+
+
+
+   - 历史回退：
+
+     ```
+     router.go(-1) //返回上一页
+     
+     this.$route和this.$router的区别是什么
+     
+     this.$route：获取路由参数
+     this.$router：跳转页面
+     ```
+
+- 路由404页
+
+```
+
+  { // 匹配不符合上面路径的路由
+    path: '/*',
+    component: NotFound
+  }
+```
+
+- 响应路由参数的变化
+
+```
+动态路由传参：如果给一个路由组件传递不同参数，如何响应参数的变化，主要通过watch来监听$route
+watch:{
+    $route(to,from) {
+      console.log('watch:',to.params.type)
+    }
+  },
+```
+
+
+
+- 嵌套路由:可以实现二级路由，三级路由。。。。。
+
+     通过配置路由的children和要在哪个页面展示对应路由的router-view配合实现
+
+    ```
+    例如：
+    {
+        path: '/my',
+        component: My,
+        children: [
+          { //配置默认的二级路由
+            path: '',
+            component: My1
+          },
+          {
+            path: 'my2',
+            component: My2
+          },
+          {
+            path: 'my3',
+            component: My3
+          }
+        ]
+      },
+    ```
+
+    
+
+- 命名视图
+
+
+
+ 可以在一个组件中展现多个组件视图
+
+```
+{
+    path: '/my',
+    component: My,
+    //嵌套路由
+    children: [
+      {
+        path: '',
+        components: {
+        //在My组件中添加2个视图页面
+          my_banlance: My2,
+          my_order: My3
+        }
+      }
+    
+    
+```
+
+- 命名路由
+
+    ```
+    {
+        path: '/my',
+        name: 'my', //通过给路由命名
+        component: My,
+     }
+    ```
+
+    
+
+    
+
+    

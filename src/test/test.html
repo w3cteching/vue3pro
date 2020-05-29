@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul> 
+        <li><a href="#/">turn white</a></li> 
+        <li><a href="#/blue">turn blue</a></li> 
+        <li><a href="#/green">turn green</a></li> 
+    </ul> 
+</body>
+<script>
+   //获取body标签
+    var content = document.querySelector('body');
+    //封装一个路由的构造函数
+    function Router() {
+        
+        this.routes = {};
+        //添加当前路由地址，例如：/blue，或/green或/white
+        this.currentUrl = '';
+     }
+    Router.prototype.route = function(path, callback) {
+        console.log('path:',path)
+        console.log('callback:',callback)
+        //将回调函数绑定到this.routes的对象上
+        this.routes[path] = callback || function(){};
+    };
+    Router.prototype.refresh = function() {
+        this.currentUrl = location.hash.slice(1) || '/';
+     
+        this.routes[this.currentUrl]();
+    };
+    Router.prototype.init = function() {
+        window.addEventListener('load', this.refresh.bind(this), false);
+        window.addEventListener('hashchange', this.refresh.bind(this), false);
+    }
+
+var Router = new Router();
+Router.init();
+// change Page anything
+function changeBgColor(color) {
+    content.style.backgroundColor = color;
+}
+Router.route('/', function() {
+    console.log('调用根路径')
+    changeBgColor('white');
+    //或向后台请求数据，渲染不同的页面内容
+});
+Router.route('/blue', function() {
+    console.log('调用blue')
+    changeBgColor('blue');
+});
+Router.route('/green', function() {
+    console.log('调用green')
+    changeBgColor('green');
+});
+
+
+console.log('最后打印：',Router.routes)
+</script>
+</html>

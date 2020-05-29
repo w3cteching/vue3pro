@@ -1,15 +1,29 @@
 <template>
     <div>
-        <tree-com
+       <h2>我的页面</h2>
+       <!-- 默认的二级路由 -->
+       <!-- <router-view></router-view> -->
+
+    <router-view name="my_banlance"></router-view>
+    <router-view name="my_order"></router-view>
+       
+        <!-- <tree-com
             :title="treeObj.name"
             :list="treeObj.children"
             :depth="0">
-        </tree-com>
+        </tree-com> -->
+        <!-- <div class="links">
+         <ul>
+            <router-link to="/my/setting" tag='li'>我的设置</router-link>
+            <router-link to="/my/head" tag='li'>我的头像</router-link>
+            <router-link to="/my/banlance" tag='li'>我的余额</router-link>
+         </ul>
+        </div> -->
     </div>
 </template>
 
 <script>
-import TreeCom from '../components/tree'
+// import TreeCom from '../components/tree'
 
 // 模拟一个树形结构【注意：应该是后台返回的数据】
 const treeObj = {
@@ -72,7 +86,13 @@ export default {
       treeObj
     }
   },
-  components: { TreeCom }
+  created () { },
+  watch:{
+    $route(to,from) {
+      console.log('watch:',to.params.type)
+    }
+  },
+ // components: { TreeCom }
 }
 </script>
 

@@ -32,7 +32,7 @@ Object.keys(filters).forEach(key => {
 
 
 router.beforeEach((to, from, next) => {
-  console.log('to:::::', to)
+  console.log(to)
   if (to.meta.title) {
     document.title = to.meta.title;
   }
