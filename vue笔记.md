@@ -1530,6 +1530,224 @@ focus()
 
 
 
+ ## vue递归组件
+
+
+
+   一、递归：函数自己调用自己
+
+```
+//递归可以将复杂的问题简化
+//递归特征：必须有一个能结束递归的条件
+
+例如：
+1.阶乘
+function jiecheng(n) {
+  
+   if(n===1) return 1;
+
+   return n * jiecheng(n-1)
+
+}
+
+2.fibonaci数列
+function fibonaci(n) {
+
+   if(n<=2) return 1;
+
+   return fibonaci(n-1)+fibonaci(n-2);
+
+}
+
+```
+
+二、vue递归组件
+
+1. 不用递归实现:循环遍历
+
+     +0电子产品  
+
+    ​       +1电视
+
+    ​              2 philips
+
+    ​             TCL
+
+    ​            海信
+
+    ​       +1电脑
+
+    ​            Mac Air
+
+    ​            Mac Pro
+
+    ​            ThinkPad
+
+    ​     可穿戴设置
+
+       
+
+2. 用vue递归组件实现：组件自身调用自身
+
+     ```
+组件自己调用自己的name名来实现递归调用
+添加一个显示和隐藏的功能
+     ```
+
+​    
+
+```
+具体代码如下：
+父组件(my.vue)代码：
+
+<template>
+    <div>
+        <tree-com
+            :title="treeObj.name"
+            :list="treeObj.children"
+            :depth="0">
+        </tree-com>
+    </div>
+</template>
+
+<script>
+import TreeCom from '../components/tree'
+
+// 模拟一个树形结构【注意：应该是后台返回的数据】
+const treeObj = {
+  name: '电子产品',
+  children: [
+    {
+      name: '电视',
+      children: [
+        {
+          name: 'philips',
+          children: [
+            { name: 'philips-A' },
+            { name: 'philips-B' }
+          ]
+        },
+        { name: 'Tcl' },
+        { name: '海信' }
+      ]
+    },
+    {
+      name: '电脑',
+      children: [
+        { name: 'Mac Air' },
+        { name: 'Mac Pro' },
+        {
+          name: 'ThinkPad',
+          children: [
+            { 
+              name: 'ThinkPad-A',
+              children:[
+                {name:'ThinkPad-A-A'},
+                {name:'ThinkPad-A-B'},
+                {name:'ThinkPad-A-C'},
+            ] },
+            { name: 'ThinkPad-B' }
+          ]
+        }
+      ]
+    },
+    {
+      name: '可穿戴设置',
+      children: [
+        {
+          name: '手表',
+          children: [
+            { name: 'iWatch' },
+            { name: '小米watch' }
+          ]
+        }
+      ]
+    }
+
+  ]
+
+}
+export default {
+  name: 'my',
+  data () {
+    return {
+      treeObj
+    }
+  },
+  components: { TreeCom }
+}
+</script>
+
+<style lang="scss">
+
+</style>
+
+树形组件（tree.vue）代码：
+<template>
+    <div>
+        <div class="title" :style="indent" @click="toggle">
+           <span>{{ isShow ? '-':'+' }}</span>
+           {{ title }}
+        </div>
+        <div v-if="isShow">
+            <tree-com
+                v-for="(item,index) in list"
+                :key="index"
+                :title="item.name"
+                :list="item.children"
+                :depth="depth+1"   //树形样式缩进
+            >
+        </tree-com>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+  name: 'tree-com', // 通过组件自身的name来实现组件的递归调用
+  data () {
+    return {
+      isShow: true, //显示或隐藏状态控制
+    }
+  },
+  props: {
+    title: {  //当前接收要显示的标题
+      type: String,
+      default: '名称'
+    },
+    list: {  //要递归的数组
+      type: Array
+    },
+    depth: { //显示层级
+      type: Number,
+      default: 0
+    }
+  },
+  computed: {
+    //通过计算属性计算缩进样式
+    indent () {
+      return `transform:translate(${this.depth * 20}px)`
+    }
+  },
+  methods: {
+   //切换显示隐藏状态
+    toggle () {
+      this.isShow = !this.isShow;
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+
+</style>
+
+```
+
+
+
+
+
 
 
 
